@@ -1,0 +1,12 @@
+**/.deepeval
+**/__pycache__
+**/*.py[cod]
+**/*.pyo
+**/*.pyd
+**/*.egg-info
+**/*.egg
+**/*.whl
+**/*.zip
+**/*.tar
+**/.pytest_cache
+poetry.lock
