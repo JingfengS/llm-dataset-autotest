@@ -146,7 +146,6 @@ class BaseModelTest:
         dataset.test_cases = test_cases
         self.evaluation_result = evaluate(dataset, metrics=self.metrics)
     
-    @property
     def get_success_rate(self):
         if self.evaluation_result == None:
             raise ValueError("Please evaluate the llm first")

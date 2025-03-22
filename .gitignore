@@ -10,3 +10,6 @@
 **/*.tar
 **/.pytest_cache
 poetry.lock
+
+.deepeval_telemetry.txt
+.deepeval-cache.json

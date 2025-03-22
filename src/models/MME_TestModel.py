@@ -1,4 +1,4 @@
-from BaseModelTest import ModelTestConfig, BaseModelTest
+from .BaseModelTest import BaseModelTest
 from deepeval.test_case import LLMTestCaseParams
 from deepeval.metrics import GEval
 import pandas as pd
@@ -29,6 +29,7 @@ class MME_TestModel(BaseModelTest):
         + raw_data["question"]
         )
         raw_data['expected_output'] = raw_data['answer']
+        raw_data['context'] = raw_data['category'].apply(lambda category: [category])
         self.data = raw_data
         return raw_data
     
