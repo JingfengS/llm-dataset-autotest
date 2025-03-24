@@ -23,7 +23,7 @@ class MME_TestModel(BaseModelTest):
         self.metrics.append(METRIC_MME)
 
     def make_data(self, raw_data) -> pd.DataFrame:
-        raw_data['image_url'] = raw_data['image'].apply(lambda image: BaseModelTest.pil_to_base64(image))
+        raw_data['image_url'] = raw_data['image'].apply(lambda image: BaseModelTest.pil_to_base64(image, 'JPEG'))
         raw_data['input'] = (
         "For the following question, directly answer 'Yes' or 'No', no need to explain: "
         + raw_data["question"]

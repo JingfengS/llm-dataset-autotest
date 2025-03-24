@@ -181,11 +181,11 @@ class BaseModelTest:
         
 
     @staticmethod
-    def pil_to_base64(image, format: str = "JPEG") -> str:
+    def pil_to_base64(image, format: str) -> str:
         buffered = BytesIO()
         image.save(buffered, format=format)
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
-        return f"data:image/jpeg;base64,{img_str}"
+        return f"data:image/{format.lower()};base64,{img_str}"
 
 
 if __name__ == "__main__":
