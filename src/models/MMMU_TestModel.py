@@ -6,7 +6,7 @@ import ast
 
 class MMMU_Test_Model(BaseModelTest):
     def set_eval(self):
-        METRIC_MME = GEval(
+        METRIC_MMMU = GEval(
             name="Correctness",
             evaluation_steps=[
                 "Check if the choice made ('A', 'B', 'C', 'D') in actual_output is exactly match with choice in expected output",
@@ -21,7 +21,7 @@ class MMMU_Test_Model(BaseModelTest):
                 LLMTestCaseParams.CONTEXT,
             ],
         )
-        self.metrics.append(METRIC_MME)
+        self.metrics.append(METRIC_MMMU)
 
     def make_data(self, raw_data):
         def make_input(row) -> str:
@@ -34,7 +34,7 @@ class MMMU_Test_Model(BaseModelTest):
             # prompt += '\n' + 'HINT: You only need to return choices, no need to explain'
             return prompt
         raw_data['input'] = raw_data.apply(make_input, axis=1)
-        raw_data['image_url'] = raw_data['image_1'].apply(lambda image: BaseModelTest.pil_to_base64(image, 'PNG'))
+        raw_data['image_url'] = raw_data['image_1'].apply(lambda image: BaseModelTest.pil_to_base64(image, 'JPEG'))
         raw_data['expected_output'] = raw_data['answer']
         raw_data['context'] = raw_data['subfield'].apply(lambda topic: [topic])
         self.data = raw_data

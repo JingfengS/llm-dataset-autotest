@@ -1,6 +1,7 @@
 import json
 from dataclasses import dataclass
 from litellm import completion
+from PIL import Image
 import base64
 from io import BytesIO
 import pandas as pd
@@ -181,7 +182,9 @@ class BaseModelTest:
         
 
     @staticmethod
-    def pil_to_base64(image, format: str) -> str:
+    def pil_to_base64(image: Image.Image, format: str = 'JPEG') -> str:
+        if image.mode not in ('RGB', 'L'):
+            image = image.convert('RGB')
         buffered = BytesIO()
         image.save(buffered, format=format)
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
