@@ -11,6 +11,7 @@ from tqdm import tqdm
 from deepeval.evaluate import EvaluationResult, evaluate
 from deepeval.test_case import LLMTestCase
 from pathlib import Path
+import pickle
 
 
 @dataclass
@@ -146,7 +147,7 @@ class BaseModelTest:
             test_cases.append(test_case)
         dataset.test_cases = test_cases
         self.evaluation_result = evaluate(dataset, metrics=self.metrics)
-    
+
     def get_success_rate(self):
         if self.evaluation_result == None:
             raise ValueError("Please evaluate the llm first")
@@ -157,34 +158,47 @@ class BaseModelTest:
         return (
             success_num,
             len(self.evaluation_result.test_results),
-            success_num / len(self.evaluation_result.test_results)
-        ) 
+            success_num / len(self.evaluation_result.test_results),
+        )
+
+    def save_goldens(self, output_path: Path) -> None:
+        """ 
+        Save goldens to pickles for future validation
+        @param output_path: The path to save the pickle
+        """
+        if len(self.goldens) == 0:
+            raise ValueError("Please make goldens first")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(output_path, "wb") as f:
+            pickle.dump(self.goldens, f)
+        print(f"Goldens saved to {output_path}")
+
+    def load_goldens(self, input_path: Path) -> None:
+        """ 
+        Load the goldens pickle for validation
+        @param input_path: path for the input pickle
+        """
+        if len(self.goldens) != 0:
+            raise ValueError("self.goldens should have length of 0")
 
     @staticmethod
     def test_results_json2csv(input_path: Path, output_path: Path) -> pd.DataFrame:
-        with open(input_path, 'r') as results_json:
+        with open(input_path, "r") as results_json:
             json_data = json.load(results_json)
-        df = pd.DataFrame(json_data['testCases'])
-        df['context_str'] = df['context'].str[0]
-        stats = (
-            df.groupby('context_str')['success']
-            .agg(
-                successful='sum',
-                total='count'
-            )
+        df = pd.DataFrame(json_data["testCases"])
+        df["context_str"] = df["context"].str[0]
+        stats = df.groupby("context_str")["success"].agg(
+            successful="sum", total="count"
         )
-        stats['ratio'] = (stats['successful'] / stats['total'])  * 100
+        stats["ratio"] = (stats["successful"] / stats["total"]) * 100
         stats = stats.reset_index()
         stats.to_csv(output_path, index=False)
         return stats
-    
-    
-        
 
     @staticmethod
-    def pil_to_base64(image: Image.Image, format: str = 'JPEG') -> str:
-        if image.mode not in ('RGB', 'L'):
-            image = image.convert('RGB')
+    def pil_to_base64(image: Image.Image, format: str = "JPEG") -> str:
+        if image.mode not in ("RGB", "L"):
+            image = image.convert("RGB")
         buffered = BytesIO()
         image.save(buffered, format=format)
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
