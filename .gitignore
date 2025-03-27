@@ -13,3 +13,6 @@ poetry.lock
 
 .deepeval_telemetry.txt
 .deepeval-cache.json
+.api
+**/*.pkl
+**/*.ipynb
