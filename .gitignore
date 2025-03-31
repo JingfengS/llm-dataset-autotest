@@ -16,3 +16,4 @@ poetry.lock
 .api
 **/*.pkl
 **/*.ipynb
+**/*.json

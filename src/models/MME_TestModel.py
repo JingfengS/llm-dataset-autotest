@@ -13,6 +13,7 @@ class MME_TestModel(BaseModelTest):
                 "if it is, give it full scores, if not, 0 points",
             ],
             strict_mode=True,
+            model='gpt-4o-mini',
             evaluation_params=[
                 LLMTestCaseParams.INPUT,
                 LLMTestCaseParams.ACTUAL_OUTPUT,
@@ -29,7 +30,7 @@ class MME_TestModel(BaseModelTest):
         + raw_data["question"]
         )
         raw_data['expected_output'] = raw_data['answer']
-        raw_data['context'] = raw_data['category'].apply(lambda category: [category])
+        raw_data['context'] = raw_data.apply(lambda row: [row['category'], row['question_id']], axis=1)
         self.data = raw_data
         return raw_data
     

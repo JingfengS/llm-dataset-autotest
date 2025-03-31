@@ -12,6 +12,7 @@ class MathVista_ModelTest(BaseModelTest):
                 "if it is, give it full scores, if not, 0 points",
                 'You do not have to concern about the explanation, only looking at final results is fine'
             ],
+            model='gpt-4o-mini',
             strict_mode=True,
             evaluation_params=[
                 LLMTestCaseParams.INPUT,

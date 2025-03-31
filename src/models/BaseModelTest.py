@@ -146,7 +146,13 @@ class BaseModelTest:
             )
             test_cases.append(test_case)
         dataset.test_cases = test_cases
-        self.evaluation_result = evaluate(dataset, metrics=self.metrics)
+        self.evaluation_result = evaluate(
+            dataset,
+            metrics=self.metrics,
+            ignore_errors=True,
+            throttle_value=0.3,
+            max_concurrent=10,
+        )
 
     def get_success_rate(self):
         if self.evaluation_result == None:
@@ -162,7 +168,7 @@ class BaseModelTest:
         )
 
     def save_goldens(self, output_path: Path) -> None:
-        """ 
+        """
         Save goldens to pickles for future validation
         @param output_path: The path to save the pickle
         """
@@ -174,7 +180,7 @@ class BaseModelTest:
         print(f"Goldens saved to {output_path}")
 
     def load_goldens(self, input_path: Path) -> None:
-        """ 
+        """
         Load the goldens pickle for validation
         @param input_path: path for the input pickle
         """

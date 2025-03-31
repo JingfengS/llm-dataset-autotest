@@ -14,6 +14,7 @@ class MMMU_Test_Model(BaseModelTest):
                 'You do not have to concern about the explanation, only looking at final results are fine'
             ],
             strict_mode=True,
+            model='gpt-4o-mini',
             evaluation_params=[
                 LLMTestCaseParams.INPUT,
                 LLMTestCaseParams.ACTUAL_OUTPUT,
