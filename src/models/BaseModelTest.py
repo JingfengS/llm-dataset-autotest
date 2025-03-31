@@ -1,3 +1,4 @@
+import asyncio
 import json
 from dataclasses import dataclass
 from litellm import completion
@@ -38,7 +39,7 @@ class BaseModelTest:
     def set_eval(self):
         raise NotImplementedError("Subclass must implement this method")
 
-    def get_answer(self, message: str, image_url: str = "", **kwargs) -> str:
+    async def get_answer(self, message: str, image_url: str = "", **kwargs) -> str:
         """
         The request from the llm that we deployed
         @param message: The message we sent to the llm
@@ -52,7 +53,8 @@ class BaseModelTest:
                 content.append({"type": "image_url", "image_url": image_url})
             content.append({"type": "text", "text": message})
 
-            response = completion(
+            response = await asyncio.to_thread(
+                completion,
                 model=self.model_name,
                 messages=[{"role": "user", "content": content}],
                 api_base=self.api_base,
@@ -106,15 +108,28 @@ class BaseModelTest:
             self.data[image_url] = ""
         if not has_context:
             self.data[context] = [""]
-        for _, instance in tqdm(self.data.iterrows(), desc="Generating goldens"):
-            golden = Golden(
-                input=instance[input],
-                actual_output=self.get_answer(instance[input], instance[image_url]),
-                expected_output=instance[expected_output],
-                context=instance[context],
-                comments=comments,
+
+        async def generate_goldens():
+            actual_outputs = await asyncio.gather(
+                *(
+                    self.get_answer(row[input], row[image_url])
+                    for _, row in self.data.iterrows()
+                )
             )
-            self.goldens.append(golden)
+
+            for actual_output, (_, instance) in zip(
+                actual_outputs, self.data.iterrows()
+            ):
+                golden = Golden(
+                    input=instance[input],
+                    actual_output=actual_output,
+                    expected_output=instance[expected_output],
+                    context=instance[context],
+                    comments=comments,
+                )
+                self.goldens.append(golden)
+
+        asyncio.run(generate_goldens())
         return self.goldens
 
     def evaluate_llm(
