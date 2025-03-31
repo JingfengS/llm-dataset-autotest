@@ -174,6 +174,7 @@ class BaseModelTest:
         """
         if len(self.goldens) == 0:
             raise ValueError("Please make goldens first")
+        output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "wb") as f:
             pickle.dump(self.goldens, f)
@@ -186,6 +187,23 @@ class BaseModelTest:
         """
         if len(self.goldens) != 0:
             raise ValueError("self.goldens should have length of 0")
+        with open(input_path, "rb") as f:
+            self.goldens = pickle.load(f)
+        print(f"Load pickle from {input_path}")
+
+    def add_feature(self, golden_feature: str, data_feature: str) -> None:
+        if len(self.goldens) == 0 or len(self.data) == 0:
+            raise ValueError("Goldens or Data cannot be empty")
+        for golden, (_, row) in zip(self.goldens, self.data.iterrows()):
+            match golden_feature:
+                case "input":
+                    golden.input = row[data_feature]
+                case "expected_output":
+                    golden.expected_output = row[data_feature]
+                case "context":
+                    golden.context = row[data_feature]
+                case "comments":
+                    golden.comments = row[data_feature]
 
     @staticmethod
     def test_results_json2csv(input_path: Path, output_path: Path) -> pd.DataFrame:

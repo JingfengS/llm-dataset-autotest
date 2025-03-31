@@ -21,11 +21,22 @@ class Test_MMMU:
         mmmu_test_model = MMMU_Test_Model(mmmu_test_config)
         mmmu_test_model.make_data(dataset_fixture)
         mmmu_test_model.make_goldens()
+        mmmu_test_model.save_goldens('./Goldens/mmmu_test_goldens.pkl') 
         mmmu_test_model.set_eval()
         mmmu_test_model.evaluate_llm()
         success_num, total_num, ratio = mmmu_test_model.get_success_rate()
         print("Success_num: ", success_num)
         print("total_num: ", total_num)
         print("ratio: ", ratio)
+    
+    def test_save_load_goldens(self, dataset_fixture):
+        mmmu_test_config = ModelTestConfig(model_name='openai/internvl2_5')
+        mmmu_test_model = MMMU_Test_Model(mmmu_test_config)
+        mmmu_test_model.load_goldens('./Goldens/mmmu_test_goldens.pkl')
+        for golden in mmmu_test_model.goldens:
+            print(f"Goldens_actual_output: ", golden.actual_output)
+            print(f"Goldens_expected_output: ", golden.expected_output)
+            print('\n\n')
+
 
         
