@@ -32,7 +32,7 @@ class Test_MMMU:
     def test_save_load_goldens(self, dataset_fixture):
         mmmu_test_config = ModelTestConfig(model_name='openai/internvl2_5')
         mmmu_test_model = MMMU_Test_Model(mmmu_test_config)
-        mmmu_test_model.load_goldens('./Goldens/mmmu_test_goldens.pkl')
+        mmmu_test_model.load_goldens('./tests/Goldens/mmmu_test_goldens.pkl')
         for golden in mmmu_test_model.goldens:
             print(f"Goldens_actual_output: ", golden.actual_output)
             print(f"Goldens_expected_output: ", golden.expected_output)

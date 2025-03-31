@@ -110,9 +110,13 @@ class BaseModelTest:
             self.data[context] = [""]
 
         async def generate_goldens():
+            sem = asyncio.Semaphore(6)  # Limit to 6 concurrent requests
+            async def limited_get_answer(message, image_url):
+                async with sem:
+                    return await self.get_answer(message, image_url)
             actual_outputs = await asyncio.gather(
                 *(
-                    self.get_answer(row[input], row[image_url])
+                    limited_get_answer(row[input], row[image_url])
                     for _, row in self.data.iterrows()
                 )
             )

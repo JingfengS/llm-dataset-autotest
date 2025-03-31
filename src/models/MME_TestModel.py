@@ -2,6 +2,8 @@ from .BaseModelTest import BaseModelTest
 from deepeval.test_case import LLMTestCaseParams
 from deepeval.metrics import GEval
 import pandas as pd
+from pathlib import Path
+import json
 
 
 class MME_TestModel(BaseModelTest):
@@ -34,5 +36,33 @@ class MME_TestModel(BaseModelTest):
         self.data = raw_data
         return raw_data
     
+    def output_results(self, input_file: Path) -> float:
+        with open(input_file, 'r') as f:
+            data = json.load(f)
+        df = pd.DataFrame(data['testCases'])
+        
+        df['task'] = df['context'].str[0]
+        df['image'] = df['context'].str[1]
+
+        acc = df.groupby(['task'])['success'].mean()
+        grouped = df.groupby(['task', 'image'])
+        both_correct = grouped['success'].all()
+        acc_plus = both_correct.groupby(['task']).mean()
+
+        task_scores = (acc + acc_plus) * 100
+
+        # Print results (assuming perception_tasks and cognition_tasks are defined lists)
+        print("=========== Perception ===========")
+        print("total score:", task_scores.loc[perception_tasks].sum())
+        for task in perception_tasks:
+            if task in task_scores:
+                print(f"\t{task} score:", task_scores[task])
+
+        print("\n=========== Cognition ===========")
+        print("total score:", task_scores.loc[cognition_tasks].sum())
+        for task in cognition_tasks:
+            if task in task_scores:
+                print(f"\t{task} score:", task_scores[task])
+
     
 
