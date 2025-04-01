@@ -17,3 +17,4 @@ poetry.lock
 **/*.pkl
 **/*.ipynb
 **/*.json
+**/.idea
