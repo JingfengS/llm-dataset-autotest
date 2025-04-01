@@ -9,7 +9,7 @@ import os
 
 os.environ['OPENAI_API_KEY'] = 'jingfeng'
 os.environ['DEEPEVAL_RESULTS_FOLDER'] = '../mmmu_results'
-mmmu_goldens_path = Path('../MMMU_Goldens_validation')
+mmmu_goldens_path = Path('../../internvl/MMMU_Goldens_validation')
 MMMU_URL = 'MMMU/MMMU'
 MMMU_MODEL_CONFIG = ModelTestConfig(model_name='openai/internvl2_5')
 

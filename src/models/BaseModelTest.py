@@ -236,6 +236,7 @@ class BaseModelTest:
         stats["ratio"] = (stats["successful"] / stats["total"]) * 100
         stats = stats.reset_index()
         stats.to_csv(output_path, index=False)
+        print(f"Results export to {output_path}")
         return stats
 
     @staticmethod

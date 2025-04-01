@@ -36,7 +36,16 @@ class MME_TestModel(BaseModelTest):
         self.data = raw_data
         return raw_data
     
-    def output_results(self, input_file: Path) -> float:
+    @staticmethod
+    def output_results(input_file: Path) -> None:
+        perception_tasks = [
+            "existence", "count", "position", "color", "posters",
+            "celebrity", "scene", "landmark", "artwork", "OCR"
+        ]
+        cognition_tasks = [
+            "commonsense_reasoning", "numerical_calculation",
+            "text_translation", "code_reasoning"
+        ]
         with open(input_file, 'r') as f:
             data = json.load(f)
         df = pd.DataFrame(data['testCases'])

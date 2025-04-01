@@ -10,7 +10,7 @@ import os
 os.environ['OPENAI_API_KEY'] = 'jingfeng'
 
 if __name__ == '__main__':
-    mmmu_goldens = Path('../MMMU_Goldens_validation')
+    mmmu_goldens = Path('../../internvl/MMMU_Goldens_validation')
     MMMU_URL = 'MMMU/MMMU'
     mmmu_configs = get_dataset_config_names(MMMU_URL)
     for config in tqdm(mmmu_configs):
