@@ -2,6 +2,7 @@ from .BaseModelTest import BaseModelTest
 from deepeval.test_case import LLMTestCaseParams
 from deepeval.metrics import GEval
 import pandas as pd
+import json
 
 class MathVista_ModelTest(BaseModelTest):
     def set_eval(self):
@@ -30,4 +31,25 @@ class MathVista_ModelTest(BaseModelTest):
         raw_data['context'] = raw_data['question_type'].apply(lambda question_type: [question_type])
         self.data = raw_data
         return raw_data
-      
+
+    @staticmethod
+    def output_results(input_file: str) -> None:
+        """
+        Generate the output results for MathVista Model Test
+
+        Args:
+            input_file (str): 
+        """
+        with open(input_file, 'r') as f:
+            data = json.load(f)
+        test_data = data['testCases']
+        df = pd.DataFrame(test_data)
+        correct_count = df['success'].sum()
+        total_count = len(df)
+        success_ratio = correct_count / total_count
+        print("### Success Count")
+        print(f"{correct_count} out of {total_count}")
+        print("### Total Count")
+        print(f"{total_count}")
+        print("### Success Ratio")
+        print(f"{success_ratio:.4f} (or {success_ratio*100:.2f}%)")
