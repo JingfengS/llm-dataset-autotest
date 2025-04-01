@@ -8,10 +8,10 @@ from tqdm import tqdm
 import os
 
 os.environ['OPENAI_API_KEY'] = 'jingfeng'
-os.environ['DEEPEVAL_RESULTS_FOLDER'] = '../mmmu_results'
-mmmu_goldens_path = Path('../../internvl/MMMU_Goldens_validation')
+os.environ['DEEPEVAL_RESULTS_FOLDER'] = '../results/mmmu_results'
+mmmu_goldens_path = Path('../Goldens/mmmu')
 MMMU_URL = 'MMMU/MMMU'
-MMMU_MODEL_CONFIG = ModelTestConfig(model_name='openai/internvl2_5')
+MMMU_MODEL_CONFIG = ModelTestConfig(model_name='openai/qwen2')
 
 if __name__ == '__main__':
     results = {}

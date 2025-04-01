@@ -10,7 +10,7 @@ import os
 os.environ['OPENAI_API_KEY'] = 'jingfeng'
 
 if __name__ == '__main__':
-    mmmu_goldens = Path('../../internvl/MMMU_Goldens_validation')
+    mmmu_goldens = Path('../Goldens/mmmu')
     MMMU_URL = 'MMMU/MMMU'
     mmmu_configs = get_dataset_config_names(MMMU_URL)
     for config in tqdm(mmmu_configs):
@@ -19,7 +19,7 @@ if __name__ == '__main__':
              continue
         mmmu_ds = load_dataset(MMMU_URL, config)['validation']
         mmmu_df = pd.DataFrame(mmmu_ds)
-        mmmu_model_config = ModelTestConfig(model_name='openai/internvl2_5')
+        mmmu_model_config = ModelTestConfig(model_name='openai/qwen2')
         mmmu_model = MMMU_Test_Model(mmmu_model_config)
         mmmu_model.make_data(mmmu_df)
         mmmu_model.make_goldens()

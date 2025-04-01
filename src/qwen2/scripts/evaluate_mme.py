@@ -8,12 +8,18 @@ from tqdm import tqdm
 import os
 
 os.environ['OPENAI_API_KEY'] = 'jingfeng'
-os.environ['DEEPEVAL_RESULTS_FOLDER'] = '../mme_results'
-MME_MODEL_CONFIG = ModelTestConfig(model_name='openai/')
+os.environ['DEEPEVAL_RESULTS_FOLDER'] = '../results/mme_results'
+MME_MODEL_CONFIG = ModelTestConfig(model_name='openai/qwen2')
+MME_URL = 'darkyarding/MME'
+MME_GOLDEN_PATH = Path('../Goldens/mme/mme_goldens.pkl')
 
 if __name__ == '__main__':
-    mme_goldens_path = Path('../../internvl/mme/goldens.pkl')
+    ds = load_dataset(MME_URL)['test']
+    df = pd.DataFrame(ds)
+
     mme_model = MME_TestModel(MME_MODEL_CONFIG)
-    mme_model.load_goldens(mme_goldens_path)
+    mme_model.make_data(df)
+    mme_model.make_goldens()
+    mme_model.save_goldens(MME_GOLDEN_PATH)
     mme_model.set_eval()
     mme_model.evaluate_llm()
