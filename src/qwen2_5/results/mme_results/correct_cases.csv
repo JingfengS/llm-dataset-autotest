@@ -1,0 +1,15 @@
+context_str,successful,total,ratio
+OCR,36,40,90.0
+artwork,326,400,81.5
+celebrity,281,340,82.6470588235294
+code_reasoning,39,40,97.5
+color,58,60,96.66666666666667
+commonsense_reasoning,124,140,88.57142857142857
+count,55,60,91.66666666666666
+existence,58,60,96.66666666666667
+landmark,376,400,94.0
+numerical_calculation,39,40,97.5
+position,52,60,86.66666666666667
+posters,274,294,93.19727891156462
+scene,342,400,85.5
+text_translation,40,40,100.0
