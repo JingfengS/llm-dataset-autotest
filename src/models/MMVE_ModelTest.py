@@ -51,3 +51,26 @@ class MMVE_ModelTest(BaseModelTest):
 
         print("\n### Overall Success Ratio")
         print(f"{overall_success_ratio:.4f} (or {overall_success_ratio*100:.2f}%)")
+
+    @staticmethod
+    def output_by_capabilities(input_file: str) -> None:
+        """
+        Generate the output results for MMVE Model Test by capabilities list
+
+        Args:
+            input_file (str): 
+                The path to the input file containing the test results in JSON format.
+        """
+        with open(input_file, 'r') as f:
+            data = json.load(f)
+        test_data = data['testCases']
+        df = pd.DataFrame(test_data)
+        df['context'] = df['context'].apply(lambda x: x if isinstance(x, list) else [])
+        df['context_str'] = df['context'].apply(lambda x : ', '.join(x))
+        success_ratios = df.groupby('context_str')['success'].mean().reset_index()
+        overall_success_ratio = df['success'].mean()
+        print("### Success Ratios by Context")
+        print(success_ratios.to_string(index=False))
+        print("\n### Overall Success Ratio")
+        print(f"{overall_success_ratio:.4f} (or {overall_success_ratio*100:.2f}%)")
+        
