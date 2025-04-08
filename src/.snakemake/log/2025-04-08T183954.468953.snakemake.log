@@ -1,0 +1,55 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: JingfengdeMacBook-Pro.local
+Building DAG of jobs...
+Using shell: /opt/homebrew/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+all                    1
+pope_evaluation        2
+total                  3
+
+Select jobs to execute...
+Execute 2 jobs...
+[Tue Apr  8 18:39:54 2025]
+localrule pope_evaluation:
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/qwen2/pope/golden/pope-popular/pope_goldens.pkl, results/qwen2/pope/results/pope-popular/pope.done
+    jobid: 3
+    reason: Missing output files: results/qwen2/pope/golden/pope-popular/pope_goldens.pkl
+    wildcards: pope_type=popular
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+[Tue Apr  8 18:39:54 2025]
+localrule pope_evaluation:
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/qwen2/pope/golden/pope-adversarial/pope_goldens.pkl, results/qwen2/pope/results/pope-adversarial/pope.done
+    jobid: 4
+    reason: Missing output files: results/qwen2/pope/golden/pope-adversarial/pope_goldens.pkl
+    wildcards: pope_type=adversarial
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+Waiting for more resources.
+[Tue Apr  8 18:40:06 2025]
+Finished jobid: 4 (Rule: pope_evaluation)
+1 of 3 steps (33%) done
+[Tue Apr  8 18:40:06 2025]
+Finished jobid: 3 (Rule: pope_evaluation)
+2 of 3 steps (67%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Apr  8 18:40:06 2025]
+localrule all:
+    input: results/qwen2/pope/golden/pope-random/pope_goldens.pkl, results/qwen2/pope/golden/pope-popular/pope_goldens.pkl, results/qwen2/pope/golden/pope-adversarial/pope_goldens.pkl
+    jobid: 0
+    reason: Input files updated by another job: results/qwen2/pope/golden/pope-popular/pope_goldens.pkl, results/qwen2/pope/golden/pope-adversarial/pope_goldens.pkl
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+Waiting for more resources.
+[Tue Apr  8 18:40:06 2025]
+Finished jobid: 0 (Rule: all)
+3 of 3 steps (100%) done
+Complete log(s): /Users/jingfengsun/Documents/model/models/src/.snakemake/log/2025-04-08T183954.468953.snakemake.log

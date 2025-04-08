@@ -1,0 +1,136 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: JingfengdeMacBook-Pro.local
+Building DAG of jobs...
+Using shell: /opt/homebrew/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+all                    1
+pope_evaluation        3
+total                  4
+
+Select jobs to execute...
+Execute 3 jobs...
+[Tue Apr  8 17:09:53 2025]
+localrule pope_evaluation:
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-popular/pope_result.json, results/openai/qwen2/pope/results/pope-popular/pope_goldens.json
+    jobid: 3
+    reason: Missing output files: results/openai/qwen2/pope/results/pope-popular/pope_result.json, results/openai/qwen2/pope/results/pope-popular/pope_goldens.json
+    wildcards: pope_type=popular
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+[Tue Apr  8 17:09:53 2025]
+localrule pope_evaluation:
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-adversarial/pope_result.json, results/openai/qwen2/pope/results/pope-adversarial/pope_goldens.json
+    jobid: 4
+    reason: Missing output files: results/openai/qwen2/pope/results/pope-adversarial/pope_result.json, results/openai/qwen2/pope/results/pope-adversarial/pope_goldens.json
+    wildcards: pope_type=adversarial
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+[Tue Apr  8 17:09:53 2025]
+localrule pope_evaluation:
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-random/pope_result.json, results/openai/qwen2/pope/results/pope-random/pope_goldens.json
+    jobid: 1
+    reason: Missing output files: results/openai/qwen2/pope/results/pope-random/pope_goldens.json, results/openai/qwen2/pope/results/pope-random/pope_result.json
+    wildcards: pope_type=random
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+Waiting for more resources.
+RuleException:
+CalledProcessError in file "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 99:
+Command 'set -euo pipefail;  
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type adversarial         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-adversarial         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial/pope_result.json' returned non-zero exit status 1.
+[Tue Apr  8 17:55:19 2025]
+Error in rule pope_evaluation:
+    message: None
+    jobid: 4
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-adversarial/pope_result.json, results/openai/qwen2/pope/results/pope-adversarial/pope_goldens.json
+    shell:
+        
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type adversarial         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-adversarial         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial/pope_result.json
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 99:
+Command 'set -euo pipefail;  
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type popular         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-popular         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular/pope_result.json' returned non-zero exit status 1.
+[Tue Apr  8 17:55:55 2025]
+Error in rule pope_evaluation:
+    message: None
+    jobid: 3
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-popular/pope_result.json, results/openai/qwen2/pope/results/pope-popular/pope_goldens.json
+    shell:
+        
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type popular         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-popular         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular/pope_result.json
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 99:
+Command 'set -euo pipefail;  
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type random         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-random         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random/pope_result.json' returned non-zero exit status 1.
+[Tue Apr  8 17:55:59 2025]
+Error in rule pope_evaluation:
+    message: None
+    jobid: 1
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-random/pope_result.json, results/openai/qwen2/pope/results/pope-random/pope_goldens.json
+    shell:
+        
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type random         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-random         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random/pope_result.json
+        
+        (command exited with non-zero exit code)
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Tue Apr  8 17:55:59 2025]
+Error in rule pope_evaluation:
+    message: None
+    jobid: 3
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-popular/pope_result.json, results/openai/qwen2/pope/results/pope-popular/pope_goldens.json
+    shell:
+        
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type popular         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-popular         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-popular/pope_result.json
+        
+        (command exited with non-zero exit code)
+[Tue Apr  8 17:55:59 2025]
+Error in rule pope_evaluation:
+    message: None
+    jobid: 4
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-adversarial/pope_result.json, results/openai/qwen2/pope/results/pope-adversarial/pope_goldens.json
+    shell:
+        
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type adversarial         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-adversarial         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-adversarial/pope_result.json
+        
+        (command exited with non-zero exit code)
+[Tue Apr  8 17:55:59 2025]
+Error in rule pope_evaluation:
+    message: None
+    jobid: 1
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/openai/qwen2/pope/results/pope-random/pope_result.json, results/openai/qwen2/pope/results/pope-random/pope_goldens.json
+    shell:
+        
+        python scripts/evaluate_pope.py --model_name openai/qwen2         --local_pope_path data/pope-coco         --remote_coco_path /home/qwen2-vl-72b-instruct/POPE-main/data/coco         --pope_type random         --golden_save_path /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/golden/pope-random         --results_folder /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random         --api_base http://localhost:2000/v1/
+        mv /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random/$(ls -t /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random | head -n 1) /Users/jingfengsun/Documents/model/models/src/results/openai/qwen2/pope/results/pope-random/pope_result.json
+        
+        (command exited with non-zero exit code)
+Complete log(s): /Users/jingfengsun/Documents/model/models/src/.snakemake/log/2025-04-08T170953.193751.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

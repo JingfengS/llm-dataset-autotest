@@ -1,5 +1,74 @@
-workdir: .
+import os
+import glob
+import yaml
+from pathlib import Path
 
 
+workdir: "."
+
+base_dir = '/Users/jingfengsun/Documents/model/models/src'
+
+CONFIG_FILE = "configs/qwen2.yaml"
 
 
+configfile: CONFIG_FILE
+
+
+MODEL_NAME = config["model"]["name"]
+MODEL_BASE_URL = config["model"]["base_url"]
+MODEL_API_KEY = config["model"]["api_key"]
+
+
+# Rule to aggregate all pope_type outputs
+rule all:
+    input:
+        pope_evaluation = config['evaluation']['pope']['flag'],
+
+
+rule set_local_model:
+    input:
+        # Load the model configuration from the YAML file
+        {CONFIG_FILE},
+    output:
+        ".deepeval",
+    shell:
+        """ 
+      deepeval set-local-model --model-name='{MODEL_NAME}' \
+      --base-url='{MODEL_BASE_URL}' \
+      --api-key='{MODEL_API_KEY}' 
+      """
+
+
+rule pope_evaluation:
+    input:
+        setup=".deepeval",
+        local_pope_path=config["evaluation"]["pope"]["params"]["local_pope_path"],
+        script=config["evaluation"]["pope"]["script"],
+    output:
+        pope_evaluation = config['evaluation']['pope']['flag'],
+    params:
+        remote_coco_path=config["evaluation"]["pope"]["params"]["remote_coco_path"],
+        output_dir=os.path.join(
+            base_dir,
+            "results",
+            MODEL_NAME,
+            config["evaluation"]["pope"]["params"]["results_folder"],
+        ),
+        golden_dir= os.path.join(
+            base_dir,
+            "results",
+            MODEL_NAME,
+            config["evaluation"]["pope"]["params"]["golden_save_path"],
+        ),
+        pope_type=config["evaluation"]["pope"]["params"]["pope_types"],
+    shell:
+        """
+        python {input.script} --model_name {MODEL_NAME} \
+        --local_pope_path {input.local_pope_path} \
+        --remote_coco_path {params.remote_coco_path} \
+        --pope_type {params.pope_type} \
+        --golden_save_path {params.golden_dir} \
+        --results_folder {params.output_dir} \
+        --api_base {MODEL_BASE_URL}
+        touch {output.pope_evaluation}
+        """

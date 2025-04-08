@@ -1,0 +1,28 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: JingfengdeMacBook-Pro.local
+Building DAG of jobs...
+Using shell: /opt/homebrew/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+set_local_model        1
+total                  1
+
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Apr  8 16:25:38 2025]
+localrule set_local_model:
+    input: configs/qwen2.yaml
+    output: .deepeval
+    jobid: 0
+    reason: Missing output files: .deepeval
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+Waiting for more resources.
+[Tue Apr  8 16:25:40 2025]
+Finished jobid: 0 (Rule: set_local_model)
+1 of 1 steps (100%) done
+Complete log(s): /Users/jingfengsun/Documents/model/models/src/.snakemake/log/2025-04-08T162538.152233.snakemake.log

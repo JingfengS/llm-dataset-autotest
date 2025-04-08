@@ -41,7 +41,13 @@ def main():
         help="Path to save the golden results",
     )
     parser.add_argument(
-        "openai_api_key", type=str, default="your-api-key", help="OpenAI API key"
+        "--openai_api_key", type=str, default="your-api-key", help="OpenAI API key"
+    )
+    parser.add_argument(
+        "--api_base",
+        type=str,
+        default="http://localhost:2000/v1",
+        help="Base URL for OpenAI API",
     )
     args = parser.parse_args()
     os.environ["OPENAI_API_KEY"] = args.openai_api_key
@@ -51,21 +57,23 @@ def main():
         else [args.pope_type]
     )
     for pope_type in pope_types:
-        os.makedirs(
-            os.path.join(args.results_folder, f"pope-{pope_type}"), exist_ok=True
-        )
-        os.makedirs(
-            os.path.join(args.golden_save_path, f"pope-{pope_type}"), exist_ok=True
-        )
+        os.makedirs(os.path.join(args.results_folder, pope_type), exist_ok=True)
+        os.makedirs(os.path.join(args.golden_save_path, pope_type), exist_ok=True)
         os.environ["DEEPEVAL_RESULTS_FOLDER"] = os.path.join(
-            args.results_folder, f"pope-{pope_type}"
+            args.results_folder, pope_type
         )
-        pope_config = ModelTestConfig(model_name=args.model_name)
+        pope_config = ModelTestConfig(
+            model_name="openai/" + args.model_name, api_base=args.api_base
+        )
         pope_model = POPE_ModelTest(pope_config)
         pope_model.set_eval()
         pope_model.make_data(args.local_pope_path, args.remote_coco_path, pope_type)
         pope_model.make_goldens()
         pope_model.save_goldens(
-            os.path.join(args.golden_save_path, f"pope-{pope_type}", "pope_goldens.pkl")
+            os.path.join(args.golden_save_path, pope_type, "pope_goldens.pkl")
         )
         pope_model.evaluate_llm()
+
+
+if __name__ == "__main__":
+    main()

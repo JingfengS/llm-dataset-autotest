@@ -1,0 +1,11 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: JingfengdeMacBook-Pro.local
+Building DAG of jobs...
+InputFunctionException in rule pope_evaluation in file "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 31:
+Error:
+  AttributeError: 'Wildcards' object has no attribute 'pope_type'
+Wildcards:
+
+Traceback:
+  File "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 49, in <lambda> (rule pope_evaluation, line 52, /Users/jingfengsun/Documents/model/models/src/Snakefile)

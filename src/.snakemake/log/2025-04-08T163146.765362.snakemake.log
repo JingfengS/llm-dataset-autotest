@@ -1,0 +1,12 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: JingfengdeMacBook-Pro.local
+Building DAG of jobs...
+InputFunctionException in rule pope_evaluation in file "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 31:
+Error:
+  TypeError: expected str, bytes or os.PathLike object, not method
+Wildcards:
+  pope_type=random
+Traceback:
+  File "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 46, in <lambda>
+  File "<frozen posixpath>", line 76, in join (rule pope_evaluation, line 52, /Users/jingfengsun/Documents/model/models/src/Snakefile)

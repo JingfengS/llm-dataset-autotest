@@ -1,0 +1,57 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: JingfengdeMacBook-Pro.local
+Building DAG of jobs...
+Using shell: /opt/homebrew/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+all                    1
+pope_evaluation        1
+set_local_model        1
+total                  3
+
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Apr  8 19:30:52 2025]
+localrule set_local_model:
+    input: configs/qwen2.yaml
+    output: .deepeval
+    jobid: 2
+    reason: Updated input files: configs/qwen2.yaml
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+Waiting for more resources.
+[Tue Apr  8 19:30:56 2025]
+Finished jobid: 2 (Rule: set_local_model)
+1 of 3 steps (33%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Apr  8 19:30:56 2025]
+localrule pope_evaluation:
+    input: .deepeval, data/pope-coco, scripts/evaluate_pope.py
+    output: results/qwen2/pope.done
+    jobid: 1
+    reason: Missing output files: results/qwen2/pope.done; Input files updated by another job: .deepeval
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+Waiting for more resources.
+[Tue Apr  8 19:31:15 2025]
+Finished jobid: 1 (Rule: pope_evaluation)
+2 of 3 steps (67%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Apr  8 19:31:15 2025]
+localrule all:
+    input: results/qwen2/pope.done
+    jobid: 0
+    reason: Input files updated by another job: results/qwen2/pope.done
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+Waiting for more resources.
+[Tue Apr  8 19:31:15 2025]
+Finished jobid: 0 (Rule: all)
+3 of 3 steps (100%) done
+Complete log(s): /Users/jingfengsun/Documents/model/models/src/.snakemake/log/2025-04-08T193052.828469.snakemake.log

@@ -33,7 +33,7 @@ class POPE_ModelTest(BaseModelTest):
         raw_data['image_url'] = raw_data['image'].apply(lambda image_filename: self._get_image_path(image_filename, remote_coco_path))
         raw_data['input'] = raw_data['text']
         raw_data['expected_output'] = raw_data['label']
-        raw_data['context'] = raw_data['question_id'].apply(lambda question_id: [pope_type, question_id])
+        raw_data['context'] = raw_data['question_id'].apply(lambda question_id: [pope_type, str(question_id)])
         self.data = raw_data
         return raw_data
 

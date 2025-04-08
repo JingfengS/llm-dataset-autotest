@@ -1,5 +1,5 @@
 model:
-  name: 'openai/qwen2'
+  name: 'qwen2'
   base_url: 'http://localhost:2000/v1/'
   api_key: 'your_api_key_here'
 
@@ -8,8 +8,11 @@ evaluation:
     script: 'scripts/evaluate_pope.py'
     params:
       local_pope_path: 'data/pope-coco'
-      remote_coco_path: "/home/qwen2-vl-72b-instruct/POPE-main/data/coco
-      pope_type: 'all'
-      results_folder: ''
+      remote_coco_path: "/home/qwen2-vl-72b-instruct/POPE-main/data/coco"
+      results_folder: 'pope/results'
+      golden_save_path: 'pope/golden'
+      pope_types: 'all'
+    flag: 'results/qwen2/pope.done'
+
 
 

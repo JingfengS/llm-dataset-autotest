@@ -1,0 +1,53 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: JingfengdeMacBook-Pro.local
+Building DAG of jobs...
+Using shell: /opt/homebrew/bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+set_local_model        1
+total                  1
+
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Apr  8 16:24:40 2025]
+localrule set_local_model:
+    input: configs/qwen2.yaml
+    output: .deepeval
+    jobid: 0
+    reason: Missing output files: .deepeval
+    resources: tmpdir=/var/folders/4t/h09q0hsd41541c_5xt80467c0000gn/T
+
+Waiting for more resources.
+RuleException:
+CalledProcessError in file "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 25:
+Command 'set -euo pipefail;   
+      deepeval set-local-model --model-name='openai/qwen2'       --model-base-url='http://localhost:2000/v1/'       --model-api-key='your_api_key_here'' returned non-zero exit status 2.
+[Tue Apr  8 16:24:44 2025]
+Error in rule set_local_model:
+    message: None
+    jobid: 0
+    input: configs/qwen2.yaml
+    output: .deepeval
+    shell:
+         
+      deepeval set-local-model --model-name='openai/qwen2'       --model-base-url='http://localhost:2000/v1/'       --model-api-key='your_api_key_here'       
+        (command exited with non-zero exit code)
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Tue Apr  8 16:24:44 2025]
+Error in rule set_local_model:
+    message: None
+    jobid: 0
+    input: configs/qwen2.yaml
+    output: .deepeval
+    shell:
+         
+      deepeval set-local-model --model-name='openai/qwen2'       --model-base-url='http://localhost:2000/v1/'       --model-api-key='your_api_key_here'       
+        (command exited with non-zero exit code)
+Complete log(s): /Users/jingfengsun/Documents/model/models/src/.snakemake/log/2025-04-08T162440.914119.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

@@ -1,0 +1,10 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: JingfengdeMacBook-Pro.local
+Building DAG of jobs...
+MissingInputException in rule all in file "/Users/jingfengsun/Documents/model/models/src/Snakefile", line 23:
+Missing input files for rule all:
+    affected files:
+        results/qwen2/pope/golden/pope-random/pope_goldens.pkl
+        results/qwen2/pope/golden/pope-popular/pope_goldens.pkl
+        results/qwen2/pope/golden/pope-adversarial/pope_goldens.pkl

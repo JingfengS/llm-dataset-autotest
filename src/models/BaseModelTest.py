@@ -34,6 +34,7 @@ class BaseModelTest:
     """
     The is the base class for model test, all the other specific test will be based on this
     """
+    MAX_CONCURRENT_PER_TASK = 6
 
     def __init__(self, model_test_config: ModelTestConfig):
         self.model_name: str = model_test_config.model_name
@@ -119,7 +120,7 @@ class BaseModelTest:
             self.data[context] = [""]
 
         async def generate_goldens():
-            sem = asyncio.Semaphore(6)  # Limit to 6 concurrent requests
+            sem = asyncio.Semaphore(self.MAX_CONCURRENT_PER_TASK)  # Limit to 6 concurrent requests
             async def limited_get_answer(message, image_url):
                 async with sem:
                     return await self.get_answer(message, image_url, **(self.parameters))
