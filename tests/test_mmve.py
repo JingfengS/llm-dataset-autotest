@@ -18,7 +18,7 @@ def dataset_fixture():
 @pytest.mark.usefixtures("dataset_fixture")
 class Test_MMVE:
     def test_full_mmve(self, dataset_fixture):
-        mmve_test_config = ModelTestConfig(model_name="openai/internvl2_5")
+        mmve_test_config = ModelTestConfig(model_name="openai/qwen2")
         mmve_test_model = MMVE_ModelTest(mmve_test_config)
         mmve_test_model.make_data(dataset_fixture)
         mmve_test_model.make_goldens()

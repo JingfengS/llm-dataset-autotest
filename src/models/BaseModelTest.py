@@ -1,6 +1,6 @@
 import asyncio
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from litellm import completion
 from PIL import Image
 import base64
@@ -20,6 +20,14 @@ class ModelTestConfig:
     model_name: str
     api_base: str = "http://localhost:2000/v1"
     api_key: str = "jingfeng"
+    parameters: dict = field(default_factory=lambda :{
+        "stream": False,
+        "temperature": 0.01,
+        "do_sample": True,
+        "repeat_penalty": 1.0,
+        "top_p": 0.001,
+        "top_k": 1,
+    })
 
 
 class BaseModelTest:
@@ -31,6 +39,7 @@ class BaseModelTest:
         self.model_name: str = model_test_config.model_name
         self.api_base: str = model_test_config.api_base
         self.api_key: str = model_test_config.api_key
+        self.parameters: dict = model_test_config.parameters
         self.data: pd.DataFrame = None
         self.goldens: List[Golden] = []
         self.metrics = []
@@ -113,7 +122,7 @@ class BaseModelTest:
             sem = asyncio.Semaphore(6)  # Limit to 6 concurrent requests
             async def limited_get_answer(message, image_url):
                 async with sem:
-                    return await self.get_answer(message, image_url)
+                    return await self.get_answer(message, image_url, **(self.parameters))
             actual_outputs = await asyncio.gather(
                 *(
                     limited_get_answer(row[input], row[image_url])
