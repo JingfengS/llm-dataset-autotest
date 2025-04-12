@@ -32,8 +32,9 @@ class MMVE_ModelTest(BaseModelTest):
         raw_data["input"] = raw_data["question"]
         raw_data["expected_output"] = raw_data["answer"]
         raw_data["context"] = raw_data["capability"]
-        self.data = raw_data
-        return raw_data
+        self.data = pd.concat([raw_data] * 5, ignore_index=True)
+        self.data = self.data.sample(frac=1, ignore_index=True)
+        return self.data
 
     @staticmethod
     def output_results(input_file: str) -> None:

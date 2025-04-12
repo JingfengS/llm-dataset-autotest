@@ -1,0 +1,18 @@
+model:
+  name: 'internvl'
+  base_url: 'http://localhost:2000/v1/'
+  api_key: 'your_api_key_here'
+
+evaluation:
+  pope:
+    script: 'scripts/evaluate_pope.py'
+    params:
+      local_pope_path: 'data/pope-coco'
+      remote_coco_path: "/home/qwen2-vl-72b-instruct/POPE-main/data/coco"
+      results_folder: 'pope/results'
+      golden_save_path: 'pope/golden'
+      pope_types: 'random'
+    flag: 'results/internvl/pope.done'
+
+
+

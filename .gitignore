@@ -19,3 +19,4 @@ poetry.lock
 **/*.json
 **/.idea
 **/.DS_Store
+**/.snakemake

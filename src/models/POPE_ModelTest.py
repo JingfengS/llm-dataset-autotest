@@ -43,5 +43,9 @@ class POPE_ModelTest(BaseModelTest):
 
 
     @staticmethod
-    def output_results(input_path: Path):
-        pass
+    def output_results(input_path: Path, output_path: Path):
+        with open(input_path, 'r') as f:
+            data = json.load(f)
+        test_data = data['testCases']
+        df = pd.DataFrame(test_data)
+
