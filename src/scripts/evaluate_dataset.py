@@ -8,6 +8,7 @@ import pandas as pd
 import os
 import argparse
 
+
 def main():
     parser = argparse.ArgumentParser(description="Evaluate LLM on MMVE dataset")
     parser.add_argument(
@@ -52,19 +53,18 @@ def main():
     mmve_model_config = ModelTestConfig(
         model_name="openai/" + args.model_name, api_base=args.api_base
     )
-    ds = load_dataset(args.dataset_url)
-
-    
+    dataset = args.dataset
+    dataset_url = args.dataset_url
+    if dataset == "mm-vet":
+        mmve_model = MMVE_ModelTest(mmve_model_config)
+        ds = load_dataset(dataset_url)
+        df = pd.DataFrame(ds["test"])
+        mmve_model.make_data(df)
+        mmve_model.make_goldens()
+        mmve_model.save_goldens(os.path.join(args.golden_save_path, "mm-vet.pkl"))
+        mmve_model.set_eval()
+        mmve_model.evaluate_llm()
 
 
 if __name__ == "__main__":
-    ds = load_dataset("whyu/mm-vet")
-    df = pd.DataFrame(ds["test"])
-
-    mmve_model = MMVE_ModelTest(MMVE_MODEL_CONFIG)
-    mmve_model.make_data(df)
-    mmve_model.make_goldens()
-    mmve_model.save_goldens("../Goldens/mmve/mmve_goldens.pkl")
-    mmve_model.set_eval()
-    mmve_model.evaluate_llm()
     main()

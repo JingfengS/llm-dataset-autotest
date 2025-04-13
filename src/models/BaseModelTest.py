@@ -117,7 +117,7 @@ class BaseModelTest:
         if not has_image:
             self.data[image_url] = ""
         if not has_context:
-            self.data[context] = [""]
+            self.data[context] = self.data['input'].apply(lambda x: [''])
 
         async def generate_goldens():
             sem = asyncio.Semaphore(self.MAX_CONCURRENT_PER_TASK)  # Limit to 6 concurrent requests

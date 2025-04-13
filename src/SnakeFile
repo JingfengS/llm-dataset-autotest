@@ -72,3 +72,57 @@ rule pope_evaluation:
         --api_base {MODEL_BASE_URL}
         touch {output.pope_evaluation}
         """
+rule mm_vet_evaluation:
+    input:
+        setup='.deepeval',
+        script=config["evaluation"]["mm_vet"]["script"],
+    output:
+        mm_vet_evaluation = config['evaluation']['mm_vet']['flag'],
+    params:
+        output_dir = os.path.join(
+            base_dir,
+            "results",
+            MODEL_NAME,
+            config["evaluation"]["mm_vet"]["params"]["results_folder"],
+        ),
+        golden_dir = os.path.join(
+            base_dir,
+            "results",
+            MODEL_NAME,
+            config["evaluation"]["mm_vet"]["params"]["golden_save_path"],
+        ),
+        dataset = config["evaluation"]["mm_vet"]["params"]["dataset"],
+        dataset_url = config["evaluation"]["mm_vet"]["params"]["dataset_url"],
+    shell:
+        """
+        python {input.script} --model_name {MODEL_NAME} \
+        --dataset {params.dataset} \
+        --dataset_url {params.dataset_url} \
+        --golden_save_path {params.golden_dir} \
+        --results_folder {params.output_dir} \
+        --api_base {MODEL_BASE_URL}
+        touch {output.mm_vet_evaluation}
+        """
+
+rule additional_evaluation:
+    input:
+        setup='.deepeval',
+        script=config["evaluation"]["additional"]["script"],
+    output:
+        additional_evaluation = config['evaluation']['additional']['flag'],
+    params:
+        output_dir = os.path.join(
+            base_dir,
+            "results",
+            MODEL_NAME,
+            config["evaluation"]["additional"]["params"]["results_folder"],
+        ),
+        remote_data_path = config["evaluation"]["additional"]["params"]["remote_data_path"],
+    shell:
+        """
+        python {input.script} --model_name {MODEL_NAME} \
+        --remote_data_path {params.remote_data_path} \
+        --results_folder {params.output_dir} \
+        --api_base {MODEL_BASE_URL}
+        touch {output.additional_evaluation}
+        """

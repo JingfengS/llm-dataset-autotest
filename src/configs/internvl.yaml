@@ -13,6 +13,21 @@ evaluation:
       golden_save_path: 'pope/golden'
       pope_types: 'random'
     flag: 'results/internvl/pope.done'
+  mm_vet:
+    script: 'scripts/evaluate_dataset.py'
+    params:
+      dataset: 'mm-vet'
+      dataset_url: 'whyu/mm-vet'
+      local_mm_vet_path: 'data/mm-vet'
+      results_folder: 'mm-vet/results'
+      golden_save_path: 'mm-vet/golden'
+    flag: 'results/internvl/mm-vet.done'
+  additional:
+    script: 'scripts/evaluate_additional.py'
+    params:
+      remote_data_path: '/home/qwen2-vl-72b-instruct/additional'
+      results_folder: 'additional/results'
+    flag: 'results/internvl/additional.done'
 
 
 

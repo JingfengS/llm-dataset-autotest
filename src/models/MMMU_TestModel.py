@@ -4,7 +4,7 @@ from deepeval.metrics import GEval
 import pandas as pd
 import ast
 
-class MMMU_Test_Model(BaseModelTest):
+class MMMU_TestModel(BaseModelTest):
     def set_eval(self):
         METRIC_MMMU = GEval(
             name="Correctness",

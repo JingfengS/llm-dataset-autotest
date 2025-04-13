@@ -43,9 +43,40 @@ class POPE_ModelTest(BaseModelTest):
 
 
     @staticmethod
-    def output_results(input_path: Path, output_path: Path):
+    def calculate_evaluation_results(input_path: Path) -> None:
+        """ 
+        Generate the output results for POPE Model Test
+        This function reads the input JSON file, processes the test cases, and saves the results to a DataFrame.
+        Then it prints out the Accuracy, Precision, Recall, and F1 score
+
+        Args:
+            input_path (Path): Path to the input JSON file containing test cases.
+        """
         with open(input_path, 'r') as f:
             data = json.load(f)
         test_data = data['testCases']
         df = pd.DataFrame(test_data)
+        df['expectedOutput'] = df['expectedOutput'].str.lower()
+        df['prediction'] = df['expectedOutput']
+        df.loc[~df['success'], 'prediction'] = df.loc[~df['success'], 'expectedOutput'].map({'yes': 'no', 'no': 'yes'})
+        tp = ((df['expectedOutput'] == 'yes') & (df['prediction'] == 'yes')).sum()
+        fp = ((df['expectedOutput'] == 'no') & (df['prediction'] == 'yes')).sum()
+        tn = ((df['expectedOutput'] == 'no') & (df['prediction'] == 'no')).sum()
+        
+        precision = tp / (tp + fp) if tp + fp > 0 else 0
+        recall = tp / (tp + tn) if tp + tn > 0 else 0
+        f1 = 2 * (precision * recall) / (precision + recall) if precision + recall > 0 else 0
+        yes_ratio = df['prediction'].value_counts(normalize=True).get('yes', 0)
 
+        accuracy = df['success'].mean()
+
+        print("### Accuracy")
+        print(f"{accuracy:.4f} (or {accuracy*100:.2f}%)")
+        print("### Precision")
+        print(f"{precision:.4f} (or {precision*100:.2f}%)")
+        print("### Recall")
+        print(f"{recall:.4f} (or {recall*100:.2f}%)")
+        print("### F1 Score")
+        print(f"{f1:.4f} (or {f1*100:.2f}%)")
+        print('### Yes Ratio')
+        print(f"{yes_ratio:.4f} (or {yes_ratio*100:.2f}%)")
