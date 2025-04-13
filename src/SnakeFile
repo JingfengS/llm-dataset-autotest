@@ -8,7 +8,7 @@ workdir: "."
 
 base_dir = '/Users/jingfengsun/Documents/model/models/src'
 
-CONFIG_FILE = "configs/internvl.yaml"
+CONFIG_FILE = "configs/qwen2.yaml"
 
 
 configfile: CONFIG_FILE
