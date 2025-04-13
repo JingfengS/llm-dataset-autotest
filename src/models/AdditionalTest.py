@@ -46,7 +46,11 @@ class AdditionalTest(BaseModelTest):
         self.data["image_url"] = self.data["image_url"].apply(
             lambda x: os.path.join(remote_data_path, x)
         )
+        self.data["context"] = self.data.apply(
+            lambda row: [row["input"], row["image_url"]], axis=1
+        )
         return self.data
+
     def export_results(self, output_path: Path):
         """
         Export the results to a JSON file.
@@ -58,4 +62,4 @@ class AdditionalTest(BaseModelTest):
         dataset = EvaluationDataset(
             goldens=self.goldens,
         )
-        dataset.save_as('json', output_path)
+        dataset.save_as("json", output_path)

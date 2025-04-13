@@ -37,7 +37,7 @@ class MMVE_ModelTest(BaseModelTest):
         return self.data
 
     @staticmethod
-    def output_results(input_file: str) -> None:
+    def calculate_overall_capabilities(input_file: str) -> None:
         with open(input_file, 'r') as f:
             data = json.load(f)
         test_data = data['testCases']
@@ -51,10 +51,10 @@ class MMVE_ModelTest(BaseModelTest):
         print(success_ratios.to_string(index=False))
 
         print("\n### Overall Success Ratio")
-        print(f"{overall_success_ratio:.4f} (or {overall_success_ratio*100:.2f}%)")
+        print(f"{overall_success_ratio:.4f} (or {overall_success_ratio*100:.2f}%)\n\n")
 
     @staticmethod
-    def output_by_capabilities(input_file: str) -> None:
+    def calculate_multi_capabilities(input_file: str) -> None:
         """
         Generate the output results for MMVE Model Test by capabilities list
 

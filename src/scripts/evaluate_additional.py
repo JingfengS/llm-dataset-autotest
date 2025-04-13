@@ -35,7 +35,7 @@ def main():
     additional_model_config = ModelTestConfig("openai/" + args.model_name, args.api_base)
     additional_model = AdditionalTest(additional_model_config)
     additional_model.make_data(Path(args.remote_data_path))
-    additional_model.make_goldens(has_context=False)
+    additional_model.make_goldens()
     additional_model.export_results(Path(args.results_folder))
 
 
