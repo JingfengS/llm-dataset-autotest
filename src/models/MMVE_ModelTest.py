@@ -32,7 +32,12 @@ class MMVE_ModelTest(BaseModelTest):
         raw_data["input"] = raw_data["question"]
         raw_data["expected_output"] = raw_data["answer"]
         raw_data["context"] = raw_data["capability"]
-        self.data = pd.concat([raw_data] * 5, ignore_index=True)
+        copies = []
+        for i in range(5):
+            copy = raw_data.copy()
+            copy['context'] = copy['context'].apply(lambda x: x + [f'copy_{i}'])
+            copies.append(copy)
+        self.data = pd.concat(copies, ignore_index=True)
         self.data = self.data.sample(frac=1, ignore_index=True)
         return self.data
 
@@ -45,13 +50,18 @@ class MMVE_ModelTest(BaseModelTest):
         df['context'] = df['context'].apply(lambda x: x if isinstance(x, list) else [])
         expanded_df = df.explode('context')
         expanded_df = expanded_df.rename(columns={'context': 'capability'})
-        success_ratios = expanded_df.groupby('capability')['success'].mean().reset_index()
+        success_ratios = expanded_df.groupby('capability')['success'].mean()
+        success_ratios_by_copy = success_ratios.loc[['copy_0', 'copy_1', 'copy_2', 'copy_3', 'copy_4']]
+        success_ratios_std = success_ratios_by_copy.std()
         overall_success_ratio = df['success'].mean()
         print("### Success Ratios by Capability")
-        print(success_ratios.to_string(index=False))
+        print(success_ratios.reset_index().to_string(index=False))
 
         print("\n### Overall Success Ratio")
-        print(f"{overall_success_ratio:.4f} (or {overall_success_ratio*100:.2f}%)\n\n")
+        print(f"{overall_success_ratio:.4f} (or {overall_success_ratio*100:.2f}%)")
+
+        print("### Success Ratios Standard Deviation")
+        print(f"{success_ratios_std}\n\n")
 
     @staticmethod
     def calculate_multi_capabilities(input_file: str) -> None:
@@ -67,6 +77,7 @@ class MMVE_ModelTest(BaseModelTest):
         test_data = data['testCases']
         df = pd.DataFrame(test_data)
         df['context'] = df['context'].apply(lambda x: x if isinstance(x, list) else [])
+        df['context'] = df['context'].apply(lambda x: x[:-1])
         df['context_str'] = df['context'].apply(lambda x : ', '.join(x))
         success_ratios = df.groupby('context_str')['success'].mean().reset_index()
         overall_success_ratio = df['success'].mean()

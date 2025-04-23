@@ -1,0 +1,41 @@
+### Success Ratios by Capability
+capability  success
+    copy_0 0.408257
+    copy_1 0.403670
+    copy_2 0.399083
+    copy_3 0.408257
+    copy_4 0.408257
+       gen 0.377500
+      know 0.311905
+      math 0.530769
+       ocr 0.539583
+       rec 0.342667
+      spat 0.485333
+
+### Overall Success Ratio
+0.4055 (or 40.55%)
+### Success Ratios Standard Deviation
+0.004102877022935391
+
+
+### Success Ratios by Context
+         context_str  success
+                 ocr 0.500000
+      ocr, gen, spat 1.000000
+     ocr, know, spat 0.333333
+           ocr, math 0.527273
+           ocr, spat 0.546154
+     ocr, spat, math 0.571429
+                 rec 0.351351
+           rec, know 0.222222
+      rec, know, gen 0.277419
+     rec, know, spat 0.500000
+            rec, ocr 0.750000
+ rec, ocr, gen, spat 0.750000
+ rec, ocr, know, gen 0.625000
+      rec, ocr, spat 0.114286
+rec, ocr, spat, math 0.000000
+           rec, spat 0.283333
+
+### Overall Success Ratio
+0.4055 (or 40.55%)

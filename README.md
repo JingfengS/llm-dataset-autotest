@@ -35,4 +35,5 @@ deepeval set-local-model --model-name='qwen2_5' \
 
 ### TODO:
 - [ ] Add more datasets
-- [ ] Using asyncio or uvloop to speed up the getting of the requests
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
